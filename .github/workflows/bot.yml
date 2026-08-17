@@ -12,7 +12,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install mineflayer
@@ -23,20 +23,21 @@ jobs:
           const mineflayer = require('mineflayer');
           const bot = mineflayer.createBot({
             host: 'PixelowyMc.aternos.me',
-            port: 14728,
+            port: 14728, // <-- WPISZ AKTUALNY PORT Z ATERNOSA
             username: 'kuba21',
-            auth: 'offline'
+            auth: 'offline',
+            version: '1.21.11'
           });
+
           bot.once('spawn', () => {
-            console.log("Bot wbil na serwer!");
-            setTimeout(() => {
-              bot.chat("/login haslo123");
-            }, 3000);
+            console.log("Bot pomyślnie dołączył do serwera!");
           });
-          bot.on('error', err => console.log(err));
-          bot.on('kicked', reason => console.log("Wyrzucono:", reason));
+
+          bot.on('error', err => console.log("Błąd:", err));
+          bot.on('kicked', reason => console.log("Wyrzucono z serwera:", reason));
           EOF
 
       - name: Run bot
         run: node index.js
+        
         
