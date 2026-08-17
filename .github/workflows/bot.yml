@@ -1,1 +1,42 @@
+name: Bot Minecraft
+on:
+  workflow_dispatch:
 
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install mineflayer
+
+      - name: Create bot script
+        run: |
+          cat << 'EOF' > index.js
+          const mineflayer = require('mineflayer');
+          const bot = mineflayer.createBot({
+            host: 'PixelowyMc.aternos.me',
+            port: 14728,
+            username: 'kuba21',
+            auth: 'offline'
+          });
+          bot.once('spawn', () => {
+            console.log("Bot wbil na serwer!");
+            setTimeout(() => {
+              bot.chat("/login haslo123");
+            }, 3000);
+          });
+          bot.on('error', err => console.log(err));
+          bot.on('kicked', reason => console.log("Wyrzucono:", reason));
+          EOF
+
+      - name: Run bot
+        run: node index.js
+        
