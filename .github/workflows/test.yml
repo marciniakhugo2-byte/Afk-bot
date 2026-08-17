@@ -25,7 +25,7 @@ jobs:
      - name: Minecraft AFKBot (pull request)
        uses: ./
        with:
-        ip: herobrine.org
-        name: BOTTEST
-        port: 25565
+        ip: PixelowyMC
+        name: KIRA37
+        port: 14728
        if: ${{ github.event_name == 'pull_request' }}
